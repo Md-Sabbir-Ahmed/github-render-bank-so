@@ -1,0 +1,35 @@
+<template>
+  <style>
+    @font-face { font-family: "Anek Bangla"; src: url("assets/fonts/AnekBangla.ttf") format("truetype"); font-weight: 100 800; }
+    @font-face { font-family: "Noto Sans Bengali"; src: url("assets/fonts/NotoSansBengali.ttf") format("truetype"); font-weight: 100 900; }
+    #root { position: absolute; inset: 0; overflow: hidden; color: #f2ede4; background: #0f141b; font-family: "Noto Sans Bengali", "Inter"; }
+    #root p, #root h1, #root h2 { position: absolute; margin: 0; }
+    .disp { font-family: "Anek Bangla", "Inter"; font-weight: 800; line-height: 1.2; word-spacing: 0.1em; }
+    .body { font-family: "Noto Sans Bengali", "Inter"; font-weight: 600; line-height: 1.4; }
+    sup, sub { font-size: 0.62em; line-height: 0; }
+    .bar-top { position: absolute; left: 0; top: 0; width: 1920px; height: 92px; background: #141b25; border-bottom: 2px solid #2c3a4d; }
+    .bar-l { left: 120px; top: 22px; color: #9aa6b5; white-space: nowrap; }
+    .bar-l b { color: #e3a33b; font-weight: 700; }
+    .bar-r { right: 120px; top: 14px; font-size: 44px; color: #f2ede4; white-space: nowrap; }
+    #i-exam { left: 120px; top: 230px; font-size: 82px; white-space: nowrap; }
+    #i-post { left: 124px; top: 390px; font-size: 56px; white-space: nowrap; }
+    #i-date { left: 124px; top: 476px; font-size: 48px; color: #e3a33b; white-space: nowrap; }
+    #i-rule { position: absolute; left: 124px; top: 566px; width: 260px; height: 8px; background: #e3a33b; transform-origin: left center; }
+    #i-cnt { left: 124px; top: 602px; font-size: 64px; white-space: nowrap; }
+    #i-sub { left: 124px; top: 706px; width: 1680px; font-size: 40px; color: #9aa6b5; }
+  </style>
+  <div id="root" data-composition-id="intro" data-width="1920" data-height="1080" data-hold>
+    <h1 id="i-exam" class="disp">সম্মিলিত ব্যাংক সিনিয়র অফিসার (জেনারেল)</h1>
+    <p id="i-post" class="body">নিয়োগ পরীক্ষা</p>
+    <p id="i-date" class="body">১৩ নভেম্বর ২০২৬</p>
+    <div id="i-rule"></div>
+    <p id="i-cnt" class="disp">১০০টি প্রশ্নের সমাধান</p>
+    <p id="i-sub" class="body">English · বাংলা · গণিত · ব্যাংকিং ও অর্থনীতি · অ্যানালিটিক্যাল ও মানসিক দক্ষতা · ICT</p>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#i-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power2.inOut" }, 0.3);
+    tl.fromTo("#i-cnt, #i-sub", { x: -30, opacity: 0 }, { x: 0, opacity: 1, duration: 0.35, ease: "power3.out", stagger: 0.2 }, 0.6);
+    window.__timelines["intro"] = tl;
+  </script>
+</template>

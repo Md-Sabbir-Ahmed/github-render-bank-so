@@ -1,0 +1,89 @@
+<template>
+  <style>
+    @font-face { font-family: "Anek Bangla"; src: url("assets/fonts/AnekBangla.ttf") format("truetype"); font-weight: 100 800; }
+    @font-face { font-family: "Noto Sans Bengali"; src: url("assets/fonts/NotoSansBengali.ttf") format("truetype"); font-weight: 100 900; }
+    #root { position: absolute; inset: 0; overflow: hidden; color: #f2ede4; background: #0f141b; font-family: "Noto Sans Bengali", "Inter"; }
+    #root p, #root h1, #root h2 { position: absolute; margin: 0; }
+    .disp { font-family: "Anek Bangla", "Inter"; font-weight: 800; line-height: 1.2; word-spacing: 0.1em; }
+    .body { font-family: "Noto Sans Bengali", "Inter"; font-weight: 600; line-height: 1.4; }
+    sup, sub { font-size: 0.62em; line-height: 0; }
+    .bar-top { position: absolute; left: 0; top: 0; width: 1920px; height: 92px; background: #141b25; border-bottom: 2px solid #2c3a4d; }
+    .bar-l { left: 120px; top: 22px; color: #9aa6b5; white-space: nowrap; }
+    .bar-l b { color: #e3a33b; font-weight: 700; }
+    .bar-r { right: 120px; top: 14px; font-size: 44px; color: #f2ede4; white-space: nowrap; }
+    .mq { left: 120px; width: 1680px; font-weight: 700; line-height: 1.35; }
+    .chip-o { position: absolute; border-radius: 14px; background: #1a2330; border: 3px solid #2c3a4d; }
+    .chip-o .l { position: absolute; left: 10px; top: 50%; margin-top: -26px; width: 52px; height: 52px; border-radius: 50%; background: #253246; color: #e3a33b; font-family: "Anek Bangla"; font-weight: 800; font-size: 28px; line-height: 54px; text-align: center; }
+    .chip-o .t { position: absolute; left: 74px; right: 10px; top: 50%; transform: translateY(-50%); font-weight: 600; line-height: 1.12; }
+    .panel { position: absolute; border-radius: 18px; }
+    .viz { left: 120px; width: 820px; background: #141c27; border: 2px solid #2c3a4d; overflow: hidden; }
+    .viz .lab { position: absolute; white-space: nowrap; font-weight: 700; line-height: 1.2; }
+    .viz .num { font-family: "Inter", "Noto Sans Bengali"; font-weight: 800; }
+    .viz .trow { position: absolute; left: 30px; width: 756px; border-radius: 12px; background: #1a2330; border: 3px solid #2c3a4d; display: flex; align-items: center; gap: 18px; padding: 0 26px; }
+    .viz .trow span { flex: 1; white-space: nowrap; }
+    .viz .trow span.k { color: #f2ede4; font-weight: 700; }
+    .viz .trow span.v { text-align: right; color: #e3a33b; font-family: "Inter", "Noto Sans Bengali"; font-weight: 800; }
+    .viz .trow span.m { text-align: center; font-family: "Inter", "Noto Sans Bengali"; font-weight: 700; }
+    .viz .bar { position: absolute; border-radius: 10px 10px 4px 4px; }
+    .viz .tile { position: absolute; border-radius: 16px; background: #1a2330; border: 3px solid #2c3a4d; font-family: "Inter", "Noto Sans Bengali"; font-weight: 800; text-align: center; white-space: nowrap; }
+    .viz .tile.ask { border: 4px dashed #e3a33b; color: #e3a33b; }
+    .viz .tile .av { position: absolute; inset: 0; color: #3fbf6f; opacity: 0; }
+    .viz .dot { position: absolute; width: 26px; height: 26px; border-radius: 50%; background: #e3a33b; box-shadow: 0 0 0 6px rgba(227,163,59,0.25); }
+    .viz svg { position: absolute; left: 0; top: 0; overflow: visible; }
+    .board { background: #173a2c; border: 10px solid #5a4630; }
+    .board .h { position: absolute; left: 34px; top: 18px; font-size: 32px; color: #a9c7b8; font-weight: 600; }
+    .step { position: absolute; left: 34px; right: 30px; padding: 8px 18px 12px 26px; border-radius: 10px; color: #f4f1e8; font-weight: 700; line-height: 1.3; border-left: 8px solid transparent; }
+    .ansbox { position: absolute; left: 34px; right: 30px; bottom: 26px; padding: 14px 24px 18px; border-radius: 14px; background: #3fbf6f; color: #0b1a12; font-family: "Anek Bangla"; font-weight: 800; line-height: 1.2; }
+    .ansbox.no { background: #e5484d; color: #fff7f0; }
+    #q59-q { top: 112px; font-size: 40px; }
+    #q59-opts { position: absolute; left: 120px; top: 238px; width: 1680px; height: 66px; }
+    #q59-oa { left: 0px; top: 0px; width: 405px; height: 66px; } #q59-oa .t { font-size: 36px; }
+    #q59-ob { left: 425px; top: 0px; width: 405px; height: 66px; } #q59-ob .t { font-size: 36px; }
+    #q59-oc { left: 850px; top: 0px; width: 405px; height: 66px; } #q59-oc .t { font-size: 36px; }
+    #q59-od { left: 1275px; top: 0px; width: 405px; height: 66px; } #q59-od .t { font-size: 36px; }
+    #q59-viz, #q59-board { top: 328px; height: 660px; }
+    #q59-board { left: 980px; width: 820px; }
+    #q59-board .step { font-size: 40px; }
+    #q59-ans { font-size: 46px; }
+  </style>
+  <div id="root" data-composition-id="q59" data-width="1920" data-height="1080" data-hold>
+    <div class="bar-top"></div>
+    <p class="bar-l body" style="font-size: 32px">সম্মিলিত ব্যাংক সিনিয়র অফিসার (জেনারেল) · ২০২৬ · <b>গণিত</b></p>
+    <p class="bar-r disp">প্রশ্ন ৫৯/১০০</p>
+    <p id="q59-q" class="mq body">A machine loses 10% of its value every year. Its value after 2 years is Tk 48,600. What was its original value?</p>
+    <div id="q59-opts"><div id="q59-oa" class="chip-o"><div class="l">ক</div><div class="t">Tk 58,320</div></div><div id="q59-ob" class="chip-o"><div class="l">খ</div><div class="t">Tk 54,000</div></div><div id="q59-oc" class="chip-o"><div class="l">গ</div><div class="t">Tk 60,000</div></div><div id="q59-od" class="chip-o"><div class="l">ঘ</div><div class="t">Tk 64,000</div></div></div>
+    <div id="q59-viz" class="panel viz" data-layout-allow-overflow><div id="q59v-base" style="position:absolute; left:40px; top:550px; width:736px; height:4px; background:#9aa6b5; border-radius:2px"></div><div id="q59v-b0" class="bar" style="left:109.33px; top:90px; width:120px; height:460px; background:#e3a33b"></div><div id="q59v-v0" class="lab num" style="left:50px; width:238.67px; text-align:center; top:42px; font-size:34px; color:#f2ede4">60000</div><div id="q59v-l0" class="lab" style="left:54px; width:230.67px; white-space:normal; text-align:center; top:564px; font-size:30px; line-height:1.15; color:#9aa6b5">শুরু</div><div id="q59v-b1" class="bar" style="left:348px; top:136px; width:120px; height:414px; background:#4e9c97"></div><div id="q59v-v1" class="lab num" style="left:288.67px; width:238.67px; text-align:center; top:88px; font-size:34px; color:#f2ede4">54000</div><div id="q59v-l1" class="lab" style="left:292.67px; width:230.67px; white-space:normal; text-align:center; top:564px; font-size:30px; line-height:1.15; color:#9aa6b5">1 বছর পর</div><div id="q59v-b2" class="bar" style="left:586.67px; top:177.4px; width:120px; height:372.6px; background:#5f9df2"></div><div id="q59v-v2" class="lab num" style="left:527.33px; width:238.67px; text-align:center; top:129.4px; font-size:34px; color:#f2ede4">48600</div><div id="q59v-l2" class="lab" style="left:531.33px; width:230.67px; white-space:normal; text-align:center; top:564px; font-size:30px; line-height:1.15; color:#9aa6b5">2 বছর পর</div></div>
+    <div id="q59-board" class="panel board"><p class="h body">সমাধান</p>
+      <div id="q59-s0" class="step" style="top: 66px">প্রতি বছর মান থাকে 90%</div>
+      <div id="q59-s1" class="step" style="top: 152px">2 বছর পর = V × 0.9 × 0.9 = 0.81V</div>
+      <div id="q59-s2" class="step" style="top: 238px">V = 48600 ÷ 0.81 = 60000</div>
+      <div id="q59-s3" class="step" style="top: 324px">যাচাই: 60000 → 54000 → 48600</div>
+      <div id="q59-ans" class="ansbox">সঠিক উত্তর: গ) Tk 60,000</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#q59-q", { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power3.out" }, 0.05);
+    tl.fromTo("#q59-oa, #q59-ob, #q59-oc, #q59-od", { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: 0.25, stagger: 0.06 }, 0.2);
+    tl.fromTo("#q59-viz, #q59-board", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.35);
+    tl.fromTo("#q59v-b0", { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: 0.5, ease: "power3.out" }, 0.65);
+    tl.fromTo("#q59v-v0", { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: 0.25 }, 1);
+    tl.fromTo("#q59v-b1", { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: 0.5, ease: "power3.out" }, 0.83);
+    tl.fromTo("#q59v-v1", { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: 0.25 }, 1.18);
+    tl.fromTo("#q59v-b2", { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: 0.5, ease: "power3.out" }, 1.01);
+    tl.fromTo("#q59v-v2", { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: 0.25 }, 1.36);
+    tl.fromTo("[id^='q59v-l']", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.45);
+    tl.fromTo("#q59-s0", { clipPath: "inset(-10% 100% -10% 0%)", borderLeftColor: "rgba(227,163,59,0)" }, { clipPath: "inset(-10% 0% -10% 0%)", borderLeftColor: "#e3a33b", duration: 0.6, ease: "power2.out" }, 9.31);
+    tl.fromTo("#q59-s1", { clipPath: "inset(-10% 100% -10% 0%)", borderLeftColor: "rgba(227,163,59,0)" }, { clipPath: "inset(-10% 0% -10% 0%)", borderLeftColor: "#e3a33b", duration: 0.6, ease: "power2.out" }, 13.67);
+    tl.fromTo("#q59-s0", { opacity: 1, borderLeftColor: "#e3a33b" }, { opacity: 0.6, borderLeftColor: "rgba(227,163,59,0)", duration: 0.3, immediateRender: false }, 13.67);
+    tl.fromTo("#q59-s2", { clipPath: "inset(-10% 100% -10% 0%)", borderLeftColor: "rgba(227,163,59,0)" }, { clipPath: "inset(-10% 0% -10% 0%)", borderLeftColor: "#e3a33b", duration: 0.6, ease: "power2.out" }, 19.87);
+    tl.fromTo("#q59-s1", { opacity: 1, borderLeftColor: "#e3a33b" }, { opacity: 0.6, borderLeftColor: "rgba(227,163,59,0)", duration: 0.3, immediateRender: false }, 19.87);
+    tl.fromTo("#q59-s3", { clipPath: "inset(-10% 100% -10% 0%)", borderLeftColor: "rgba(227,163,59,0)" }, { clipPath: "inset(-10% 0% -10% 0%)", borderLeftColor: "#e3a33b", duration: 0.6, ease: "power2.out" }, 26.91);
+    tl.fromTo("#q59-s2", { opacity: 1, borderLeftColor: "#e3a33b" }, { opacity: 0.6, borderLeftColor: "rgba(227,163,59,0)", duration: 0.3, immediateRender: false }, 26.91);
+    tl.fromTo("#q59-ans", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "back.out(1.6)" }, 33.63);
+    tl.fromTo("#q59-oa, #q59-ob, #q59-od", { opacity: 1 }, { opacity: 0.4, duration: 0.3, immediateRender: false }, 33.63);
+    tl.fromTo("#q59-oc", { borderColor: "#2c3a4d", backgroundColor: "#1a2330" }, { borderColor: "#3fbf6f", backgroundColor: "rgba(63,191,111,0.22)", duration: 0.3, immediateRender: false }, 33.63);
+    tl.fromTo("#q59-oc .l", { backgroundColor: "#253246", color: "#e3a33b" }, { backgroundColor: "#3fbf6f", color: "#0f141b", duration: 0.3, immediateRender: false }, 33.63);
+    window.__timelines["q59"] = tl;
+  </script>
+</template>

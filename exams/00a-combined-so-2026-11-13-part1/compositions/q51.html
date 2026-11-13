@@ -1,0 +1,86 @@
+<template>
+  <style>
+    @font-face { font-family: "Anek Bangla"; src: url("assets/fonts/AnekBangla.ttf") format("truetype"); font-weight: 100 800; }
+    @font-face { font-family: "Noto Sans Bengali"; src: url("assets/fonts/NotoSansBengali.ttf") format("truetype"); font-weight: 100 900; }
+    #root { position: absolute; inset: 0; overflow: hidden; color: #f2ede4; background: #0f141b; font-family: "Noto Sans Bengali", "Inter"; }
+    #root p, #root h1, #root h2 { position: absolute; margin: 0; }
+    .disp { font-family: "Anek Bangla", "Inter"; font-weight: 800; line-height: 1.2; word-spacing: 0.1em; }
+    .body { font-family: "Noto Sans Bengali", "Inter"; font-weight: 600; line-height: 1.4; }
+    sup, sub { font-size: 0.62em; line-height: 0; }
+    .bar-top { position: absolute; left: 0; top: 0; width: 1920px; height: 92px; background: #141b25; border-bottom: 2px solid #2c3a4d; }
+    .bar-l { left: 120px; top: 22px; color: #9aa6b5; white-space: nowrap; }
+    .bar-l b { color: #e3a33b; font-weight: 700; }
+    .bar-r { right: 120px; top: 14px; font-size: 44px; color: #f2ede4; white-space: nowrap; }
+    .mq { left: 120px; width: 1680px; font-weight: 700; line-height: 1.35; }
+    .chip-o { position: absolute; border-radius: 14px; background: #1a2330; border: 3px solid #2c3a4d; }
+    .chip-o .l { position: absolute; left: 10px; top: 50%; margin-top: -26px; width: 52px; height: 52px; border-radius: 50%; background: #253246; color: #e3a33b; font-family: "Anek Bangla"; font-weight: 800; font-size: 28px; line-height: 54px; text-align: center; }
+    .chip-o .t { position: absolute; left: 74px; right: 10px; top: 50%; transform: translateY(-50%); font-weight: 600; line-height: 1.12; }
+    .panel { position: absolute; border-radius: 18px; }
+    .viz { left: 120px; width: 820px; background: #141c27; border: 2px solid #2c3a4d; overflow: hidden; }
+    .viz .lab { position: absolute; white-space: nowrap; font-weight: 700; line-height: 1.2; }
+    .viz .num { font-family: "Inter", "Noto Sans Bengali"; font-weight: 800; }
+    .viz .trow { position: absolute; left: 30px; width: 756px; border-radius: 12px; background: #1a2330; border: 3px solid #2c3a4d; display: flex; align-items: center; gap: 18px; padding: 0 26px; }
+    .viz .trow span { flex: 1; white-space: nowrap; }
+    .viz .trow span.k { color: #f2ede4; font-weight: 700; }
+    .viz .trow span.v { text-align: right; color: #e3a33b; font-family: "Inter", "Noto Sans Bengali"; font-weight: 800; }
+    .viz .trow span.m { text-align: center; font-family: "Inter", "Noto Sans Bengali"; font-weight: 700; }
+    .viz .bar { position: absolute; border-radius: 10px 10px 4px 4px; }
+    .viz .tile { position: absolute; border-radius: 16px; background: #1a2330; border: 3px solid #2c3a4d; font-family: "Inter", "Noto Sans Bengali"; font-weight: 800; text-align: center; white-space: nowrap; }
+    .viz .tile.ask { border: 4px dashed #e3a33b; color: #e3a33b; }
+    .viz .tile .av { position: absolute; inset: 0; color: #3fbf6f; opacity: 0; }
+    .viz .dot { position: absolute; width: 26px; height: 26px; border-radius: 50%; background: #e3a33b; box-shadow: 0 0 0 6px rgba(227,163,59,0.25); }
+    .viz svg { position: absolute; left: 0; top: 0; overflow: visible; }
+    .board { background: #173a2c; border: 10px solid #5a4630; }
+    .board .h { position: absolute; left: 34px; top: 18px; font-size: 32px; color: #a9c7b8; font-weight: 600; }
+    .step { position: absolute; left: 34px; right: 30px; padding: 8px 18px 12px 26px; border-radius: 10px; color: #f4f1e8; font-weight: 700; line-height: 1.3; border-left: 8px solid transparent; }
+    .ansbox { position: absolute; left: 34px; right: 30px; bottom: 26px; padding: 14px 24px 18px; border-radius: 14px; background: #3fbf6f; color: #0b1a12; font-family: "Anek Bangla"; font-weight: 800; line-height: 1.2; }
+    .ansbox.no { background: #e5484d; color: #fff7f0; }
+    #q51-q { top: 112px; font-size: 40px; }
+    #q51-opts { position: absolute; left: 120px; top: 184px; width: 1680px; height: 66px; }
+    #q51-oa { left: 0px; top: 0px; width: 405px; height: 66px; } #q51-oa .t { font-size: 36px; }
+    #q51-ob { left: 425px; top: 0px; width: 405px; height: 66px; } #q51-ob .t { font-size: 36px; }
+    #q51-oc { left: 850px; top: 0px; width: 405px; height: 66px; } #q51-oc .t { font-size: 36px; }
+    #q51-od { left: 1275px; top: 0px; width: 405px; height: 66px; } #q51-od .t { font-size: 36px; }
+    #q51-viz, #q51-board { top: 274px; height: 660px; }
+    #q51-board { left: 980px; width: 820px; }
+    #q51-board .step { font-size: 40px; }
+    #q51-ans { font-size: 46px; }
+  </style>
+  <div id="root" data-composition-id="q51" data-width="1920" data-height="1080" data-hold>
+    <div class="bar-top"></div>
+    <p class="bar-l body" style="font-size: 32px">সম্মিলিত ব্যাংক সিনিয়র অফিসার (জেনারেল) · ২০২৬ · <b>গণিত</b></p>
+    <p class="bar-r disp">প্রশ্ন ৫১/১০০</p>
+    <p id="q51-q" class="mq body">Find the average value of f(x) = x² on the interval [0, 3].</p>
+    <div id="q51-opts"><div id="q51-oa" class="chip-o"><div class="l">ক</div><div class="t">3</div></div><div id="q51-ob" class="chip-o"><div class="l">খ</div><div class="t">9/2</div></div><div id="q51-oc" class="chip-o"><div class="l">গ</div><div class="t">9</div></div><div id="q51-od" class="chip-o"><div class="l">ঘ</div><div class="t">2</div></div></div>
+    <div id="q51-viz" class="panel viz" data-layout-allow-overflow><div id="q51v-r0" class="trow" style="top:172px; height:96px; font-size:40px"><span class="k">∫₀³ x² dx</span><span class="v">9</span></div><div id="q51v-r1" class="trow" style="top:282px; height:96px; font-size:40px"><span class="k">ব্যবধান</span><span class="v">3 − 0 = 3</span></div><div id="q51v-r2" class="trow" style="top:392px; height:96px; font-size:40px"><span class="k">গড় মান</span><span class="v">9 ÷ 3 = 3</span></div></div>
+    <div id="q51-board" class="panel board"><p class="h body">সমাধান</p>
+      <div id="q51-s0" class="step" style="top: 66px">গড় মান = ∫ f(x) dx ÷ (b − a)</div>
+      <div id="q51-s1" class="step" style="top: 152px">∫₀³ x² dx = [x³/3]₀³ = 9</div>
+      <div id="q51-s2" class="step" style="top: 238px">গড় মান = 9 ÷ 3 = 3</div>
+      <div id="q51-s3" class="step" style="top: 324px">ফাঁদ: (0 + 9)/2 = 9/2 নয়</div>
+      <div id="q51-ans" class="ansbox">সঠিক উত্তর: ক) 3</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#q51-q", { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power3.out" }, 0.05);
+    tl.fromTo("#q51-oa, #q51-ob, #q51-oc, #q51-od", { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: 0.25, stagger: 0.06 }, 0.2);
+    tl.fromTo("#q51-viz, #q51-board", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.35);
+    tl.fromTo("#q51v-r0, #q51v-r1, #q51v-r2", { x: -30, opacity: 0 }, { x: 0, opacity: 1, duration: 0.3, ease: "power3.out", stagger: 0.15 }, 0.45);
+    tl.fromTo("#q51v-r0", { borderColor: "#2c3a4d" }, { borderColor: "#e3a33b", duration: 0.25, yoyo: true, repeat: 1, immediateRender: false }, 7.31);
+    tl.fromTo("#q51v-r1", { borderColor: "#2c3a4d" }, { borderColor: "#e3a33b", duration: 0.25, yoyo: true, repeat: 1, immediateRender: false }, 12.75);
+    tl.fromTo("#q51v-r2", { borderColor: "#2c3a4d" }, { borderColor: "#e3a33b", duration: 0.25, yoyo: true, repeat: 1, immediateRender: false }, 21.51);
+    tl.fromTo("#q51-s0", { clipPath: "inset(-10% 100% -10% 0%)", borderLeftColor: "rgba(227,163,59,0)" }, { clipPath: "inset(-10% 0% -10% 0%)", borderLeftColor: "#e3a33b", duration: 0.6, ease: "power2.out" }, 7.31);
+    tl.fromTo("#q51-s1", { clipPath: "inset(-10% 100% -10% 0%)", borderLeftColor: "rgba(227,163,59,0)" }, { clipPath: "inset(-10% 0% -10% 0%)", borderLeftColor: "#e3a33b", duration: 0.6, ease: "power2.out" }, 12.75);
+    tl.fromTo("#q51-s0", { opacity: 1, borderLeftColor: "#e3a33b" }, { opacity: 0.6, borderLeftColor: "rgba(227,163,59,0)", duration: 0.3, immediateRender: false }, 12.75);
+    tl.fromTo("#q51-s2", { clipPath: "inset(-10% 100% -10% 0%)", borderLeftColor: "rgba(227,163,59,0)" }, { clipPath: "inset(-10% 0% -10% 0%)", borderLeftColor: "#e3a33b", duration: 0.6, ease: "power2.out" }, 21.51);
+    tl.fromTo("#q51-s1", { opacity: 1, borderLeftColor: "#e3a33b" }, { opacity: 0.6, borderLeftColor: "rgba(227,163,59,0)", duration: 0.3, immediateRender: false }, 21.51);
+    tl.fromTo("#q51-s3", { clipPath: "inset(-10% 100% -10% 0%)", borderLeftColor: "rgba(227,163,59,0)" }, { clipPath: "inset(-10% 0% -10% 0%)", borderLeftColor: "#e3a33b", duration: 0.6, ease: "power2.out" }, 26.19);
+    tl.fromTo("#q51-s2", { opacity: 1, borderLeftColor: "#e3a33b" }, { opacity: 0.6, borderLeftColor: "rgba(227,163,59,0)", duration: 0.3, immediateRender: false }, 26.19);
+    tl.fromTo("#q51-ans", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "back.out(1.6)" }, 32.27);
+    tl.fromTo("#q51-ob, #q51-oc, #q51-od", { opacity: 1 }, { opacity: 0.4, duration: 0.3, immediateRender: false }, 32.27);
+    tl.fromTo("#q51-oa", { borderColor: "#2c3a4d", backgroundColor: "#1a2330" }, { borderColor: "#3fbf6f", backgroundColor: "rgba(63,191,111,0.22)", duration: 0.3, immediateRender: false }, 32.27);
+    tl.fromTo("#q51-oa .l", { backgroundColor: "#253246", color: "#e3a33b" }, { backgroundColor: "#3fbf6f", color: "#0f141b", duration: 0.3, immediateRender: false }, 32.27);
+    window.__timelines["q51"] = tl;
+  </script>
+</template>

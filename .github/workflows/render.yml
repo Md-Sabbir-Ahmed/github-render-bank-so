@@ -1,0 +1,107 @@
+# Renders the exam videos on GitHub's computers (your PC can be off).
+# Start it: Actions tab → "Render videos" → Run workflow. Up to 20 videos render at the same time.
+# Finished MP4s: Releases → "Rendered videos". Live progress: STATUS.md on the "status" branch.
+name: Render videos
+
+on:
+  workflow_dispatch:
+    inputs:
+      exams:
+        description: 'Which exams: "all", or numbers like "1,2,5" or "1-10"'
+        default: all
+        required: true
+      bitrate:
+        description: 'Video bitrate (3M looks the same as 6M for these slides and is half the size)'
+        default: 3M
+        required: true
+      skip_done:
+        description: 'Skip exams whose MP4 is already in the release'
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+      count: ${{ steps.plan.outputs.count }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            exams.json
+            .github
+      - name: Make the release that holds the videos
+        env: { GH_TOKEN: "${{ github.token }}" }
+        run: gh release view videos >/dev/null 2>&1 || gh release create videos --title "Rendered videos" --notes "MP4s rendered by the Render videos workflow."
+      - id: plan
+        env: { GH_TOKEN: "${{ github.token }}" }
+        run: python3 .github/scripts/plan.py "${{ inputs.exams }}" "${{ inputs.skip_done }}"
+      - name: Mark them queued on the dashboard
+        env: { MATRIX: "${{ steps.plan.outputs.matrix }}" }
+        run: python3 .github/scripts/status.py queue
+
+  render:
+    needs: plan
+    if: needs.plan.outputs.count != '0'
+    name: ${{ matrix.exam.dir }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix:
+        exam: ${{ fromJSON(needs.plan.outputs.matrix) }}
+    env:
+      DIR: ${{ matrix.exam.dir }}
+      ASSET: ${{ matrix.exam.asset }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            exams/${{ matrix.exam.dir }}
+            exams.json
+            .github
+      - run: python3 .github/scripts/status.py set "$DIR" rendering
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: Install FFmpeg and browser libraries
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg libnss3 libatk-bridge2.0-0 libgbm1 libxkbcommon0 libxcomposite1 libxdamage1 libxrandr2 libpango-1.0-0 libcairo2 >/dev/null
+          sudo apt-get install -y -qq libasound2t64 >/dev/null 2>&1 || sudo apt-get install -y -qq libasound2 >/dev/null 2>&1 || true
+          # frames are big: put temp on the large /mnt disk
+          sudo mkdir -p /mnt/hf-tmp && sudo chown "$USER" /mnt/hf-tmp
+      - name: Render
+        working-directory: exams/${{ matrix.exam.dir }}
+        env:
+          TMPDIR: /mnt/hf-tmp
+          PRODUCER_PAGE_NAVIGATION_TIMEOUT_MS: "300000"
+          NODE_OPTIONS: --max-old-space-size=6144
+        run: |
+          mkdir -p renders
+          npx -y hyperframes@0.8.203 render --video-bitrate "${{ inputs.bitrate }}" -o renders/video.mp4 2>&1 | tee render.log | python3 ../../.github/scripts/progress.py "$DIR"
+          test -s renders/video.mp4
+      - name: Check the file decodes cleanly
+        working-directory: exams/${{ matrix.exam.dir }}
+        run: |
+          err=$(ffmpeg -v error -i renders/video.mp4 -f null - 2>&1 | head -3)
+          if [ -n "$err" ]; then echo "DECODE ERRORS: $err"; exit 1; fi
+          mv renders/video.mp4 "renders/$ASSET"
+      - name: Upload the MP4 to the release
+        working-directory: exams/${{ matrix.exam.dir }}
+        run: gh release upload videos "renders/$ASSET" --clobber
+      - if: success()
+        run: python3 .github/scripts/status.py set "$DIR" done "$(ls -l exams/$DIR/renders/$ASSET | awk '{print $5}')"
+      - if: failure() || cancelled()
+        run: python3 .github/scripts/status.py set "$DIR" failed
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: log-${{ matrix.exam.dir }}
+          path: exams/${{ matrix.exam.dir }}/render.log
+          retention-days: 7

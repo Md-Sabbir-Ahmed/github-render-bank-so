@@ -1,0 +1,91 @@
+<template>
+  <style>
+    @font-face { font-family: "Anek Bangla"; src: url("assets/fonts/AnekBangla.ttf") format("truetype"); font-weight: 100 800; }
+    @font-face { font-family: "Noto Sans Bengali"; src: url("assets/fonts/NotoSansBengali.ttf") format("truetype"); font-weight: 100 900; }
+    #root { position: absolute; inset: 0; overflow: hidden; color: #f2ede4; background: #0f141b; font-family: "Noto Sans Bengali", "Inter"; }
+    #root p, #root h1, #root h2 { position: absolute; margin: 0; }
+    .disp { font-family: "Anek Bangla", "Inter"; font-weight: 800; line-height: 1.2; word-spacing: 0.1em; }
+    .body { font-family: "Noto Sans Bengali", "Inter"; font-weight: 600; line-height: 1.4; }
+    sup, sub { font-size: 0.62em; line-height: 0; }
+    .bar-top { position: absolute; left: 0; top: 0; width: 1920px; height: 92px; background: #141b25; border-bottom: 2px solid #2c3a4d; }
+    .bar-l { left: 120px; top: 22px; color: #9aa6b5; white-space: nowrap; }
+    .bar-l b { color: #e3a33b; font-weight: 700; }
+    .bar-r { right: 120px; top: 14px; font-size: 44px; color: #f2ede4; white-space: nowrap; }
+    .mq { left: 120px; width: 1680px; font-weight: 700; line-height: 1.35; }
+    .chip-o { position: absolute; border-radius: 14px; background: #1a2330; border: 3px solid #2c3a4d; }
+    .chip-o .l { position: absolute; left: 10px; top: 50%; margin-top: -26px; width: 52px; height: 52px; border-radius: 50%; background: #253246; color: #e3a33b; font-family: "Anek Bangla"; font-weight: 800; font-size: 28px; line-height: 54px; text-align: center; }
+    .chip-o .t { position: absolute; left: 74px; right: 10px; top: 50%; transform: translateY(-50%); font-weight: 600; line-height: 1.12; }
+    .panel { position: absolute; border-radius: 18px; }
+    .viz { left: 120px; width: 820px; background: #141c27; border: 2px solid #2c3a4d; overflow: hidden; }
+    .viz .lab { position: absolute; white-space: nowrap; font-weight: 700; line-height: 1.2; }
+    .viz .num { font-family: "Inter", "Noto Sans Bengali"; font-weight: 800; }
+    .viz .trow { position: absolute; left: 30px; width: 756px; border-radius: 12px; background: #1a2330; border: 3px solid #2c3a4d; display: flex; align-items: center; gap: 18px; padding: 0 26px; }
+    .viz .trow span { flex: 1; white-space: nowrap; }
+    .viz .trow span.k { color: #f2ede4; font-weight: 700; }
+    .viz .trow span.v { text-align: right; color: #e3a33b; font-family: "Inter", "Noto Sans Bengali"; font-weight: 800; }
+    .viz .trow span.m { text-align: center; font-family: "Inter", "Noto Sans Bengali"; font-weight: 700; }
+    .viz .bar { position: absolute; border-radius: 10px 10px 4px 4px; }
+    .viz .tile { position: absolute; border-radius: 16px; background: #1a2330; border: 3px solid #2c3a4d; font-family: "Inter", "Noto Sans Bengali"; font-weight: 800; text-align: center; white-space: nowrap; }
+    .viz .tile.ask { border: 4px dashed #e3a33b; color: #e3a33b; }
+    .viz .tile .av { position: absolute; inset: 0; color: #3fbf6f; opacity: 0; }
+    .viz .dot { position: absolute; width: 26px; height: 26px; border-radius: 50%; background: #e3a33b; box-shadow: 0 0 0 6px rgba(227,163,59,0.25); }
+    .viz svg { position: absolute; left: 0; top: 0; overflow: visible; }
+    .board { background: #173a2c; border: 10px solid #5a4630; }
+    .board .h { position: absolute; left: 34px; top: 18px; font-size: 32px; color: #a9c7b8; font-weight: 600; }
+    .step { position: absolute; left: 34px; right: 30px; padding: 8px 18px 12px 26px; border-radius: 10px; color: #f4f1e8; font-weight: 700; line-height: 1.3; border-left: 8px solid transparent; }
+    .ansbox { position: absolute; left: 34px; right: 30px; bottom: 26px; padding: 14px 24px 18px; border-radius: 14px; background: #3fbf6f; color: #0b1a12; font-family: "Anek Bangla"; font-weight: 800; line-height: 1.2; }
+    .ansbox.no { background: #e5484d; color: #fff7f0; }
+    #q54-q { top: 112px; font-size: 40px; }
+    #q54-opts { position: absolute; left: 120px; top: 238px; width: 1680px; height: 66px; }
+    #q54-oa { left: 0px; top: 0px; width: 405px; height: 66px; } #q54-oa .t { font-size: 36px; }
+    #q54-ob { left: 425px; top: 0px; width: 405px; height: 66px; } #q54-ob .t { font-size: 36px; }
+    #q54-oc { left: 850px; top: 0px; width: 405px; height: 66px; } #q54-oc .t { font-size: 36px; }
+    #q54-od { left: 1275px; top: 0px; width: 405px; height: 66px; } #q54-od .t { font-size: 36px; }
+    #q54-viz, #q54-board { top: 328px; height: 660px; }
+    #q54-board { left: 980px; width: 820px; }
+    #q54-board .step { font-size: 40px; }
+    #q54-ans { font-size: 46px; }
+  </style>
+  <div id="root" data-composition-id="q54" data-width="1920" data-height="1080" data-hold>
+    <div class="bar-top"></div>
+    <p class="bar-l body" style="font-size: 32px">সম্মিলিত ব্যাংক সিনিয়র অফিসার (জেনারেল) · ২০২৬ · <b>গণিত</b></p>
+    <p class="bar-r disp">প্রশ্ন ৫৪/১০০</p>
+    <p id="q54-q" class="mq body">A customer pays Tk 41,400 for a refrigerator, including 15% VAT, after a 10% discount on the list price. Find the list price.</p>
+    <div id="q54-opts"><div id="q54-oa" class="chip-o"><div class="l">ক</div><div class="t">Tk 45,000</div></div><div id="q54-ob" class="chip-o"><div class="l">খ</div><div class="t">Tk 40,000</div></div><div id="q54-oc" class="chip-o"><div class="l">গ</div><div class="t">Tk 36,000</div></div><div id="q54-od" class="chip-o"><div class="l">ঘ</div><div class="t">Tk 38,000</div></div></div>
+    <div id="q54-viz" class="panel viz" data-layout-allow-overflow><div id="q54v-r0" class="trow" style="top:62px; height:96px; font-size:40px"><span class="k">তালিকা মূল্য</span><span class="v">40,000</span></div><div id="q54v-r1" class="trow" style="top:172px; height:96px; font-size:40px"><span class="k">10% ছাড়</span><span class="v">− 4,000</span></div><div id="q54v-r2" class="trow" style="top:282px; height:96px; font-size:40px"><span class="k">ছাড়ের পর</span><span class="v">36,000</span></div><div id="q54v-r3" class="trow" style="top:392px; height:96px; font-size:40px"><span class="k">15% VAT</span><span class="v">+ 5,400</span></div><div id="q54v-r4" class="trow" style="top:502px; height:96px; font-size:40px"><span class="k">পরিশোধ</span><span class="v">41,400</span></div></div>
+    <div id="q54-board" class="panel board"><p class="h body">সমাধান</p>
+      <div id="q54-s0" class="step" style="top: 66px">তালিকা মূল্য = L</div>
+      <div id="q54-s1" class="step" style="top: 152px">10% ছাড়ে দাম = 0.9L</div>
+      <div id="q54-s2" class="step" style="top: 238px">15% VAT সহ = 0.9L × 1.15 = 1.035L</div>
+      <div id="q54-s3" class="step" style="top: 324px">L = 41400 ÷ 1.035 = 40000</div>
+      <div id="q54-s4" class="step" style="top: 410px">যাচাই: 36000 + 5400 = 41400</div>
+      <div id="q54-ans" class="ansbox">সঠিক উত্তর: খ) Tk 40,000</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#q54-q", { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power3.out" }, 0.05);
+    tl.fromTo("#q54-oa, #q54-ob, #q54-oc, #q54-od", { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: 0.25, stagger: 0.06 }, 0.2);
+    tl.fromTo("#q54-viz, #q54-board", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.35);
+    tl.fromTo("#q54v-r0, #q54v-r1, #q54v-r2, #q54v-r3, #q54v-r4", { x: -30, opacity: 0 }, { x: 0, opacity: 1, duration: 0.3, ease: "power3.out", stagger: 0.15 }, 0.45);
+    tl.fromTo("#q54v-r0", { borderColor: "#2c3a4d" }, { borderColor: "#e3a33b", duration: 0.25, yoyo: true, repeat: 1, immediateRender: false }, 8.11);
+    tl.fromTo("#q54v-r1", { borderColor: "#2c3a4d" }, { borderColor: "#e3a33b", duration: 0.25, yoyo: true, repeat: 1, immediateRender: false }, 10.11);
+    tl.fromTo("#q54v-r2", { borderColor: "#2c3a4d" }, { borderColor: "#e3a33b", duration: 0.25, yoyo: true, repeat: 1, immediateRender: false }, 14.51);
+    tl.fromTo("#q54v-r3", { borderColor: "#2c3a4d" }, { borderColor: "#e3a33b", duration: 0.25, yoyo: true, repeat: 1, immediateRender: false }, 20);
+    tl.fromTo("#q54v-r4", { borderColor: "#2c3a4d" }, { borderColor: "#e3a33b", duration: 0.25, yoyo: true, repeat: 1, immediateRender: false }, 27.07);
+    tl.fromTo("#q54-s0", { clipPath: "inset(-10% 100% -10% 0%)", borderLeftColor: "rgba(227,163,59,0)" }, { clipPath: "inset(-10% 0% -10% 0%)", borderLeftColor: "#e3a33b", duration: 0.6, ease: "power2.out" }, 8.11);
+    tl.fromTo("#q54-s1", { clipPath: "inset(-10% 100% -10% 0%)", borderLeftColor: "rgba(227,163,59,0)" }, { clipPath: "inset(-10% 0% -10% 0%)", borderLeftColor: "#e3a33b", duration: 0.6, ease: "power2.out" }, 10.11);
+    tl.fromTo("#q54-s0", { opacity: 1, borderLeftColor: "#e3a33b" }, { opacity: 0.6, borderLeftColor: "rgba(227,163,59,0)", duration: 0.3, immediateRender: false }, 10.11);
+    tl.fromTo("#q54-s2", { clipPath: "inset(-10% 100% -10% 0%)", borderLeftColor: "rgba(227,163,59,0)" }, { clipPath: "inset(-10% 0% -10% 0%)", borderLeftColor: "#e3a33b", duration: 0.6, ease: "power2.out" }, 14.51);
+    tl.fromTo("#q54-s1", { opacity: 1, borderLeftColor: "#e3a33b" }, { opacity: 0.6, borderLeftColor: "rgba(227,163,59,0)", duration: 0.3, immediateRender: false }, 14.51);
+    tl.fromTo("#q54-s3", { clipPath: "inset(-10% 100% -10% 0%)", borderLeftColor: "rgba(227,163,59,0)" }, { clipPath: "inset(-10% 0% -10% 0%)", borderLeftColor: "#e3a33b", duration: 0.6, ease: "power2.out" }, 20);
+    tl.fromTo("#q54-s2", { opacity: 1, borderLeftColor: "#e3a33b" }, { opacity: 0.6, borderLeftColor: "rgba(227,163,59,0)", duration: 0.3, immediateRender: false }, 20);
+    tl.fromTo("#q54-s4", { clipPath: "inset(-10% 100% -10% 0%)", borderLeftColor: "rgba(227,163,59,0)" }, { clipPath: "inset(-10% 0% -10% 0%)", borderLeftColor: "#e3a33b", duration: 0.6, ease: "power2.out" }, 27.07);
+    tl.fromTo("#q54-s3", { opacity: 1, borderLeftColor: "#e3a33b" }, { opacity: 0.6, borderLeftColor: "rgba(227,163,59,0)", duration: 0.3, immediateRender: false }, 27.07);
+    tl.fromTo("#q54-ans", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "back.out(1.6)" }, 34.19);
+    tl.fromTo("#q54-oa, #q54-oc, #q54-od", { opacity: 1 }, { opacity: 0.4, duration: 0.3, immediateRender: false }, 34.19);
+    tl.fromTo("#q54-ob", { borderColor: "#2c3a4d", backgroundColor: "#1a2330" }, { borderColor: "#3fbf6f", backgroundColor: "rgba(63,191,111,0.22)", duration: 0.3, immediateRender: false }, 34.19);
+    tl.fromTo("#q54-ob .l", { backgroundColor: "#253246", color: "#e3a33b" }, { backgroundColor: "#3fbf6f", color: "#0f141b", duration: 0.3, immediateRender: false }, 34.19);
+    window.__timelines["q54"] = tl;
+  </script>
+</template>

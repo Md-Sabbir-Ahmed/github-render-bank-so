@@ -1,0 +1,57 @@
+<template>
+  <style>
+    @font-face { font-family: "Anek Bangla"; src: url("assets/fonts/AnekBangla.ttf") format("truetype"); font-weight: 100 800; }
+    @font-face { font-family: "Noto Sans Bengali"; src: url("assets/fonts/NotoSansBengali.ttf") format("truetype"); font-weight: 100 900; }
+    #root { position: absolute; inset: 0; overflow: hidden; color: #f2ede4; background: #0f141b; font-family: "Noto Sans Bengali", "Inter"; }
+    #root p, #root h1, #root h2 { position: absolute; margin: 0; }
+    .disp { font-family: "Anek Bangla", "Inter"; font-weight: 800; line-height: 1.2; word-spacing: 0.1em; }
+    .body { font-family: "Noto Sans Bengali", "Inter"; font-weight: 600; line-height: 1.4; }
+    sup, sub { font-size: 0.62em; line-height: 0; }
+    .bar-top { position: absolute; left: 0; top: 0; width: 1920px; height: 92px; background: #141b25; border-bottom: 2px solid #2c3a4d; }
+    .bar-l { left: 120px; top: 22px; color: #9aa6b5; white-space: nowrap; }
+    .bar-l b { color: #e3a33b; font-weight: 700; }
+    .bar-r { right: 120px; top: 14px; font-size: 44px; color: #f2ede4; white-space: nowrap; }
+    .q { left: 120px; width: 1680px; color: #f2ede4; font-weight: 700; }
+    .opt { position: absolute; border-radius: 16px; background: #1a2330; border: 3px solid #2c3a4d; }
+    .opt .l { position: absolute; left: 24px; top: 50%; transform: translateY(-50%); width: 64px; height: 64px; border-radius: 50%; background: #253246; text-align: center; font-family: "Anek Bangla"; font-weight: 800; font-size: 38px; line-height: 66px; color: #e3a33b; }
+    .opt .t { position: absolute; left: 112px; right: 24px; top: 50%; transform: translateY(-50%); font-weight: 600; line-height: 1.3; }
+    .note { position: absolute; left: 120px; width: 1680px; background: #efe6d2; color: #1b1b1b; border-radius: 14px; box-shadow: 0 24px 60px rgba(0,0,0,0.55); }
+    .note .pt { position: relative; margin: 0 0 6px 0; padding-left: 40px; font-weight: 700; line-height: 1.35; }
+    .note .pt::before { content: ""; position: absolute; left: 6px; top: 0.55em; width: 14px; height: 14px; border-radius: 50%; background: #e3a33b; }
+    .fix { display: inline-block; margin-top: 4px; padding: 2px 14px 4px; border-radius: 8px; background: #fbe3c4; color: #7a4a00; font-weight: 600; font-size: 28px; }
+    .none { position: absolute; padding: 4px 26px 10px; border: 7px solid #e5484d; color: #e5484d; background: #efe6d2; font-family: "Anek Bangla"; font-weight: 800; white-space: nowrap; }
+    #q10-q { top: 144px; font-size: 62px; }
+    #q10-oa { left: 120px; top: 326.8px; width: 830px; height: 130px; }
+    #q10-oa .t { font-size: 44px; }
+    #q10-ob { left: 970px; top: 326.8px; width: 830px; height: 130px; }
+    #q10-ob .t { font-size: 44px; }
+    #q10-oc { left: 120px; top: 480.8px; width: 830px; height: 130px; }
+    #q10-oc .t { font-size: 44px; }
+    #q10-od { left: 970px; top: 480.8px; width: 830px; height: 130px; }
+    #q10-od .t { font-size: 44px; }
+    #q10-note { top: 706.8px; padding: 24px 40px 18px; }
+    #q10-note .pt { font-size: 38px; }
+  </style>
+  <div id="root" data-composition-id="q10" data-width="1920" data-height="1080" data-hold>
+    <div class="bar-top"></div>
+    <p class="bar-l body" style="font-size: 32px">সম্মিলিত ব্যাংক সিনিয়র অফিসার (জেনারেল) · ২০২৬ · <b>English</b></p>
+    <p class="bar-r disp">প্রশ্ন ১০/১০০</p>
+    <p id="q10-q" class="q body">Choose the appropriate noun form of Feasible:</p>
+    <div id="q10-oa" class="opt"><div class="l">ক</div><div class="t">Feasible</div></div>
+    <div id="q10-ob" class="opt"><div class="l">খ</div><div class="t">Feasibility</div></div>
+    <div id="q10-oc" class="opt"><div class="l">গ</div><div class="t">Feasibilization</div></div>
+    <div id="q10-od" class="opt"><div class="l">ঘ</div><div class="t">Feasibly</div></div>
+    <div id="q10-note" class="note"><p id="q10-p0" class="pt">feasible (adj) → feasibility (n) → feasibly (adv)</p></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#q10-q", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power3.out" }, 0.05);
+    tl.fromTo("#q10-oa, #q10-ob, #q10-oc, #q10-od", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.25, ease: "power3.out", stagger: 0.07 }, 0.25);
+    tl.fromTo("#q10-oa, #q10-oc, #q10-od", { opacity: 1 }, { opacity: 0.4, duration: 0.3, immediateRender: false }, 4.51);
+    tl.fromTo("#q10-ob", { borderColor: "#2c3a4d", backgroundColor: "#1a2330", scale: 1 }, { borderColor: "#3fbf6f", backgroundColor: "rgba(63, 191, 111, 0.18)", scale: 1.03, duration: 0.25, ease: "back.out(2)", immediateRender: false }, 4.51);
+    tl.fromTo("#q10-ob .l", { backgroundColor: "#253246", color: "#e3a33b" }, { backgroundColor: "#3fbf6f", color: "#0f141b", duration: 0.2, immediateRender: false }, 4.51);
+    tl.fromTo("#q10-note", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "power3.out" }, 9.79);
+    tl.fromTo("#q10-p0", { x: -20, opacity: 0 }, { x: 0, opacity: 1, duration: 0.3, ease: "power3.out" }, 9.94);
+    window.__timelines["q10"] = tl;
+  </script>
+</template>

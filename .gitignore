@@ -1,0 +1,5 @@
+renders/
+*.mp4
+.hyperframes/
+node_modules/
+render.log

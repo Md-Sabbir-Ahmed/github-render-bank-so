@@ -1,0 +1,28 @@
+<template>
+  <style>
+    @font-face { font-family: "Anek Bangla"; src: url("assets/fonts/AnekBangla.ttf") format("truetype"); font-weight: 100 800; }
+    @font-face { font-family: "Noto Sans Bengali"; src: url("assets/fonts/NotoSansBengali.ttf") format("truetype"); font-weight: 100 900; }
+    #root { position: absolute; inset: 0; overflow: hidden; color: #f2ede4; background: #0f141b; font-family: "Noto Sans Bengali", "Inter"; }
+    #root p, #root h1, #root h2 { position: absolute; margin: 0; }
+    .disp { font-family: "Anek Bangla", "Inter"; font-weight: 800; line-height: 1.2; word-spacing: 0.1em; }
+    .body { font-family: "Noto Sans Bengali", "Inter"; font-weight: 600; line-height: 1.4; }
+    sup, sub { font-size: 0.62em; line-height: 0; }
+    .bar-top { position: absolute; left: 0; top: 0; width: 1920px; height: 92px; background: #141b25; border-bottom: 2px solid #2c3a4d; }
+    .bar-l { left: 120px; top: 22px; color: #9aa6b5; white-space: nowrap; }
+    .bar-l b { color: #e3a33b; font-weight: 700; }
+    .bar-r { right: 120px; top: 14px; font-size: 44px; color: #f2ede4; white-space: nowrap; }
+    #e-done { left: 120px; top: 360px; width: 1680px; font-size: 92px; white-space: nowrap; }
+    #e-exam { left: 124px; top: 500px; width: 1680px; line-height: 1.3; font-size: 48px; color: #e3a33b; }
+    #e-series { left: 124px; top: 660px; font-size: 40px; color: #9aa6b5; white-space: nowrap; }
+  </style>
+  <div id="root" data-composition-id="end" data-width="1920" data-height="1080" data-hold>
+    <h2 id="e-done" class="disp">১০০টি প্রশ্নের সমাধান সম্পূর্ণ</h2>
+    <p id="e-exam" class="body">সম্মিলিত ব্যাংক সিনিয়র অফিসার (জেনারেল) · ১৩ নভেম্বর ২০২৬</p>
+    <p id="e-series" class="body">বিসিএস প্রিলিমিনারি · প্রশ্ন সমাধান</p>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#e-done, #e-exam, #e-series", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power3.out", stagger: 0.25 }, 0.2);
+    window.__timelines["end"] = tl;
+  </script>
+</template>

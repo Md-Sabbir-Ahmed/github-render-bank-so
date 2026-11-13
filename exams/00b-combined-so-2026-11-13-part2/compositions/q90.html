@@ -1,0 +1,87 @@
+<template>
+  <style>
+    @font-face { font-family: "Anek Bangla"; src: url("assets/fonts/AnekBangla.ttf") format("truetype"); font-weight: 100 800; }
+    @font-face { font-family: "Noto Sans Bengali"; src: url("assets/fonts/NotoSansBengali.ttf") format("truetype"); font-weight: 100 900; }
+    #root { position: absolute; inset: 0; overflow: hidden; color: #f2ede4; background: #0f141b; font-family: "Noto Sans Bengali", "Inter"; }
+    #root p, #root h1, #root h2 { position: absolute; margin: 0; }
+    .disp { font-family: "Anek Bangla", "Inter"; font-weight: 800; line-height: 1.2; word-spacing: 0.1em; }
+    .body { font-family: "Noto Sans Bengali", "Inter"; font-weight: 600; line-height: 1.4; }
+    sup, sub { font-size: 0.62em; line-height: 0; }
+    .bar-top { position: absolute; left: 0; top: 0; width: 1920px; height: 92px; background: #141b25; border-bottom: 2px solid #2c3a4d; }
+    .bar-l { left: 120px; top: 22px; color: #9aa6b5; white-space: nowrap; }
+    .bar-l b { color: #e3a33b; font-weight: 700; }
+    .bar-r { right: 120px; top: 14px; font-size: 44px; color: #f2ede4; white-space: nowrap; }
+    .mq { left: 120px; width: 1680px; font-weight: 700; line-height: 1.35; }
+    .chip-o { position: absolute; border-radius: 14px; background: #1a2330; border: 3px solid #2c3a4d; }
+    .chip-o .l { position: absolute; left: 10px; top: 50%; margin-top: -26px; width: 52px; height: 52px; border-radius: 50%; background: #253246; color: #e3a33b; font-family: "Anek Bangla"; font-weight: 800; font-size: 28px; line-height: 54px; text-align: center; }
+    .chip-o .t { position: absolute; left: 74px; right: 10px; top: 50%; transform: translateY(-50%); font-weight: 600; line-height: 1.12; }
+    .panel { position: absolute; border-radius: 18px; }
+    .viz { left: 120px; width: 820px; background: #141c27; border: 2px solid #2c3a4d; overflow: hidden; }
+    .viz .lab { position: absolute; white-space: nowrap; font-weight: 700; line-height: 1.2; }
+    .viz .num { font-family: "Inter", "Noto Sans Bengali"; font-weight: 800; }
+    .viz .trow { position: absolute; left: 30px; width: 756px; border-radius: 12px; background: #1a2330; border: 3px solid #2c3a4d; display: flex; align-items: center; gap: 18px; padding: 0 26px; }
+    .viz .trow span { flex: 1; white-space: nowrap; }
+    .viz .trow span.k { color: #f2ede4; font-weight: 700; }
+    .viz .trow span.v { text-align: right; color: #e3a33b; font-family: "Inter", "Noto Sans Bengali"; font-weight: 800; }
+    .viz .trow span.m { text-align: center; font-family: "Inter", "Noto Sans Bengali"; font-weight: 700; }
+    .viz .bar { position: absolute; border-radius: 10px 10px 4px 4px; }
+    .viz .tile { position: absolute; border-radius: 16px; background: #1a2330; border: 3px solid #2c3a4d; font-family: "Inter", "Noto Sans Bengali"; font-weight: 800; text-align: center; white-space: nowrap; }
+    .viz .tile.ask { border: 4px dashed #e3a33b; color: #e3a33b; }
+    .viz .tile .av { position: absolute; inset: 0; color: #3fbf6f; opacity: 0; }
+    .viz .dot { position: absolute; width: 26px; height: 26px; border-radius: 50%; background: #e3a33b; box-shadow: 0 0 0 6px rgba(227,163,59,0.25); }
+    .viz svg { position: absolute; left: 0; top: 0; overflow: visible; }
+    .board { background: #173a2c; border: 10px solid #5a4630; }
+    .board .h { position: absolute; left: 34px; top: 18px; font-size: 32px; color: #a9c7b8; font-weight: 600; }
+    .step { position: absolute; left: 34px; right: 30px; padding: 8px 18px 12px 26px; border-radius: 10px; color: #f4f1e8; font-weight: 700; line-height: 1.3; border-left: 8px solid transparent; }
+    .ansbox { position: absolute; left: 34px; right: 30px; bottom: 26px; padding: 14px 24px 18px; border-radius: 14px; background: #3fbf6f; color: #0b1a12; font-family: "Anek Bangla"; font-weight: 800; line-height: 1.2; }
+    .ansbox.no { background: #e5484d; color: #fff7f0; }
+    #q90-q { top: 112px; font-size: 40px; }
+    #q90-opts { position: absolute; left: 120px; top: 400px; width: 1680px; height: 66px; }
+    #q90-oa { left: 0px; top: 0px; width: 405px; height: 66px; } #q90-oa .t { font-size: 36px; }
+    #q90-ob { left: 425px; top: 0px; width: 405px; height: 66px; } #q90-ob .t { font-size: 36px; }
+    #q90-oc { left: 850px; top: 0px; width: 405px; height: 66px; } #q90-oc .t { font-size: 36px; }
+    #q90-od { left: 1275px; top: 0px; width: 405px; height: 66px; } #q90-od .t { font-size: 36px; }
+    #q90-viz, #q90-board { top: 490px; height: 522px; }
+    #q90-board { left: 980px; width: 820px; }
+    #q90-board .step { font-size: 39px; }
+    #q90-ans { font-size: 46px; }
+  </style>
+  <div id="root" data-composition-id="q90" data-width="1920" data-height="1080" data-hold>
+    <div class="bar-top"></div>
+    <p class="bar-l body" style="font-size: 32px">সম্মিলিত ব্যাংক সিনিয়র অফিসার (জেনারেল) · ২০২৬ · <b>অ্যানালিটিক্যাল ও মানসিক দক্ষতা</b></p>
+    <p class="bar-r disp">প্রশ্ন ৯০/১০০</p>
+    <p id="q90-q" class="mq body">In a survey of 180 customers, 90 use mobile banking, 80 use internet banking, and 70 use card services. Of these, 40 use both mobile and internet banking, 35 use both mobile banking and card services, 30 use both internet banking and card services, and 20 use all three. How many customers use none of these services?</p>
+    <div id="q90-opts"><div id="q90-oa" class="chip-o"><div class="l">ক</div><div class="t">15</div></div><div id="q90-ob" class="chip-o"><div class="l">খ</div><div class="t">20</div></div><div id="q90-oc" class="chip-o"><div class="l">গ</div><div class="t">25</div></div><div id="q90-od" class="chip-o"><div class="l">ঘ</div><div class="t">30</div></div></div>
+    <div id="q90-viz" class="panel viz" data-layout-allow-overflow><div id="q90v-r0" class="trow" style="top:31px; height:81px; font-size:39px"><span class="k">একক যোগ</span><span class="v">240</span></div><div id="q90v-r1" class="trow" style="top:126px; height:81px; font-size:39px"><span class="k">জোড়া বাদ</span><span class="v">− 105</span></div><div id="q90v-r2" class="trow" style="top:221px; height:81px; font-size:39px"><span class="k">তিনটিই আবার যোগ</span><span class="v">+ 20</span></div><div id="q90v-r3" class="trow" style="top:316px; height:81px; font-size:39px"><span class="k">অন্তত একটি</span><span class="v">155</span></div><div id="q90v-r4" class="trow" style="top:411px; height:81px; font-size:39px"><span class="k">কোনোটিই না</span><span class="v">180 − 155 = 25</span></div></div>
+    <div id="q90-board" class="panel board"><p class="h body">সমাধান</p>
+      <div id="q90-s0" class="step" style="top: 66px">একক যোগ: 90 + 80 + 70 = 240</div>
+      <div id="q90-s1" class="step" style="top: 144px">জোড়া বাদ: 40 + 35 + 30 = 105</div>
+      <div id="q90-s2" class="step" style="top: 222px">অন্তত একটি: 240 − 105 + 20 = 155</div>
+      <div id="q90-s3" class="step" style="top: 300px">কোনোটিই না: 180 − 155 = 25</div>
+      <div id="q90-ans" class="ansbox">সঠিক উত্তর: গ) 25</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#q90-q", { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.3, ease: "power3.out" }, 0.05);
+    tl.fromTo("#q90-oa, #q90-ob, #q90-oc, #q90-od", { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: 0.25, stagger: 0.06 }, 0.2);
+    tl.fromTo("#q90-viz, #q90-board", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.35);
+    tl.fromTo("#q90v-r0, #q90v-r1, #q90v-r2, #q90v-r3, #q90v-r4", { x: -30, opacity: 0 }, { x: 0, opacity: 1, duration: 0.3, ease: "power3.out", stagger: 0.15 }, 0.45);
+    tl.fromTo("#q90v-r0", { borderColor: "#2c3a4d" }, { borderColor: "#e3a33b", duration: 0.25, yoyo: true, repeat: 1, immediateRender: false }, 6.71);
+    tl.fromTo("#q90v-r1", { borderColor: "#2c3a4d" }, { borderColor: "#e3a33b", duration: 0.25, yoyo: true, repeat: 1, immediateRender: false }, 12.43);
+    tl.fromTo("#q90v-r2", { borderColor: "#2c3a4d" }, { borderColor: "#e3a33b", duration: 0.25, yoyo: true, repeat: 1, immediateRender: false }, 19.63);
+    tl.fromTo("#q90v-r3", { borderColor: "#2c3a4d" }, { borderColor: "#e3a33b", duration: 0.25, yoyo: true, repeat: 1, immediateRender: false }, 26.83);
+    tl.fromTo("#q90-s0", { clipPath: "inset(-10% 100% -10% 0%)", borderLeftColor: "rgba(227,163,59,0)" }, { clipPath: "inset(-10% 0% -10% 0%)", borderLeftColor: "#e3a33b", duration: 0.6, ease: "power2.out" }, 6.71);
+    tl.fromTo("#q90-s1", { clipPath: "inset(-10% 100% -10% 0%)", borderLeftColor: "rgba(227,163,59,0)" }, { clipPath: "inset(-10% 0% -10% 0%)", borderLeftColor: "#e3a33b", duration: 0.6, ease: "power2.out" }, 12.43);
+    tl.fromTo("#q90-s0", { opacity: 1, borderLeftColor: "#e3a33b" }, { opacity: 0.6, borderLeftColor: "rgba(227,163,59,0)", duration: 0.3, immediateRender: false }, 12.43);
+    tl.fromTo("#q90-s2", { clipPath: "inset(-10% 100% -10% 0%)", borderLeftColor: "rgba(227,163,59,0)" }, { clipPath: "inset(-10% 0% -10% 0%)", borderLeftColor: "#e3a33b", duration: 0.6, ease: "power2.out" }, 19.63);
+    tl.fromTo("#q90-s1", { opacity: 1, borderLeftColor: "#e3a33b" }, { opacity: 0.6, borderLeftColor: "rgba(227,163,59,0)", duration: 0.3, immediateRender: false }, 19.63);
+    tl.fromTo("#q90-s3", { clipPath: "inset(-10% 100% -10% 0%)", borderLeftColor: "rgba(227,163,59,0)" }, { clipPath: "inset(-10% 0% -10% 0%)", borderLeftColor: "#e3a33b", duration: 0.6, ease: "power2.out" }, 26.83);
+    tl.fromTo("#q90-s2", { opacity: 1, borderLeftColor: "#e3a33b" }, { opacity: 0.6, borderLeftColor: "rgba(227,163,59,0)", duration: 0.3, immediateRender: false }, 26.83);
+    tl.fromTo("#q90-ans", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "back.out(1.6)" }, 30.99);
+    tl.fromTo("#q90-oa, #q90-ob, #q90-od", { opacity: 1 }, { opacity: 0.4, duration: 0.3, immediateRender: false }, 30.99);
+    tl.fromTo("#q90-oc", { borderColor: "#2c3a4d", backgroundColor: "#1a2330" }, { borderColor: "#3fbf6f", backgroundColor: "rgba(63,191,111,0.22)", duration: 0.3, immediateRender: false }, 30.99);
+    tl.fromTo("#q90-oc .l", { backgroundColor: "#253246", color: "#e3a33b" }, { backgroundColor: "#3fbf6f", color: "#0f141b", duration: 0.3, immediateRender: false }, 30.99);
+    window.__timelines["q90"] = tl;
+  </script>
+</template>

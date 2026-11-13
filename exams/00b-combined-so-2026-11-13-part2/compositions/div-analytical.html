@@ -1,0 +1,32 @@
+<template>
+  <style>
+    @font-face { font-family: "Anek Bangla"; src: url("assets/fonts/AnekBangla.ttf") format("truetype"); font-weight: 100 800; }
+    @font-face { font-family: "Noto Sans Bengali"; src: url("assets/fonts/NotoSansBengali.ttf") format("truetype"); font-weight: 100 900; }
+    #root { position: absolute; inset: 0; overflow: hidden; color: #f2ede4; background: #0f141b; font-family: "Noto Sans Bengali", "Inter"; }
+    #root p, #root h1, #root h2 { position: absolute; margin: 0; }
+    .disp { font-family: "Anek Bangla", "Inter"; font-weight: 800; line-height: 1.2; word-spacing: 0.1em; }
+    .body { font-family: "Noto Sans Bengali", "Inter"; font-weight: 600; line-height: 1.4; }
+    sup, sub { font-size: 0.62em; line-height: 0; }
+    .bar-top { position: absolute; left: 0; top: 0; width: 1920px; height: 92px; background: #141b25; border-bottom: 2px solid #2c3a4d; }
+    .bar-l { left: 120px; top: 22px; color: #9aa6b5; white-space: nowrap; }
+    .bar-l b { color: #e3a33b; font-weight: 700; }
+    .bar-r { right: 120px; top: 14px; font-size: 44px; color: #f2ede4; white-space: nowrap; }
+    #d-k { left: 124px; top: 240px; font-size: 40px; color: #9aa6b5; white-space: nowrap; }
+    #d-name { left: 120px; top: 300px; width: 1680px; font-size: 128px; }
+    #d-rule { position: absolute; left: 124px; top: 633px; width: 260px; height: 8px; background: #e3a33b; transform-origin: left center; }
+    #d-range { left: 124px; top: 669px; font-size: 48px; color: #e3a33b; white-space: nowrap; }
+  </style>
+  <div id="root" data-composition-id="div-analytical" data-width="1920" data-height="1080" data-hold>
+    <p id="d-k" class="body">সম্মিলিত ব্যাংক সিনিয়র অফিসার (জেনারেল) · ১৩ নভেম্বর ২০২৬</p>
+    <h1 id="d-name" class="disp">অ্যানালিটিক্যাল ও মানসিক দক্ষতা</h1>
+    <div id="d-rule"></div>
+    <p id="d-range" class="body">প্রশ্ন ৭১–৯০ · ২০টি প্রশ্ন</p>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#d-name", { x: -40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.45, ease: "power3.out" }, 0.1);
+    tl.fromTo("#d-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power2.inOut" }, 0.4);
+    tl.fromTo("#d-range", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "power3.out" }, 0.7);
+    window.__timelines["div-analytical"] = tl;
+  </script>
+</template>
