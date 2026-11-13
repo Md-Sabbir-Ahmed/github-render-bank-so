@@ -7,10 +7,11 @@
   "pct": 86.8
  },
  "00a-combined-so-2026-11-13-part1": {
-  "state": "rendering",
+  "state": "done",
   "run": "https://github.com/Md-Sabbir-Ahmed/github-render-bank-so/actions/runs/43437863304",
   "started": "2026-11-13 13:55 UTC",
-  "finished": "",
-  "pct": 90.3
+  "finished": "2026-11-13 14:44 UTC",
+  "pct": 90.3,
+  "bytes": "408387343"
  }
 }
